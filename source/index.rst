@@ -91,6 +91,7 @@ Bundle Curly Brace Alignment
 Bundle definition should be followed by a space and a left curly brace, the closing curly brace should be aligned with the first character of the bundle definition. This allows for nested bundles.
 
     ::
+
         bundle agent example {
 
         }
