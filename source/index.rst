@@ -17,9 +17,31 @@ Typically you indent 4 spaces, and never use tabs. Never let the length of a
 line exceed 80 characters. Unless there are cases where breaking the line would
 break the parsing of the code. (i.e. long shellcommands statements) 
 
-::
+    ::
 
-    bundle agent update {
+        bundle agent update {
+            vars:
+                "policyhost" string => "MyPolicyServerHostname";
+
+            files:
+                any::
+                    "/var/cfengine/inputs/"
+                        copy_from    => update_policy( "/var/cfengine/masterfiles","$(policyhost)" ),
+                        classes      => policy_updated( "policy_updated" ),
+                        depth_search => recurse("inf");
+
+                solaris::
+                    "/var/cfengine/inputs"
+                        copy_from => update_policy( "/var/cfengine/masterfiles", "$(policyhost" ),
+                        classes   => policy_updated( "policy_updated" );
+        }
+
+Types and classes within bundles
+--------------------------------
+Each :term:`promise-type` should have newline before the following promise-type.
+
+    For example the newline before the files promise-type::
+
         vars:
             "policyhost" string => "MyPolicyServerHostname";
 
@@ -30,26 +52,39 @@ break the parsing of the code. (i.e. long shellcommands statements)
                     classes      => policy_updated( "policy_updated" ),
                     depth_search => recurse("inf");
 
-            solaris::
-                "/var/cfengine/inputs"
-                    copy_from => update_policy( "/var/cfengine/masterfiles", "$(policyhost" ),
-                    classes   => policy_updated( "policy_updated" );
-    }
 
-Types and classes within bundles
---------------------------------
-All types and classes shoud have a newline between them. 
+Each :term:`class-expression` within a promise-type should have a newline before the 
+following class-expression.
 
-The any class should be used explicitly if other classes within a type are 
-used. This improves readability by aligning all classes within a type and 
-removes ambiguity.
+    ::
+        
+        files:
+           any::
+               "/var/cfengine/inputs/"
+                   copy_from    => update_policy( "/var/cfengine/masterfiles","$(policyhost)" ),
+                   classes      => policy_updated( "policy_updated" ),
+                   depth_search => recurse("inf");
 
-Types whos resources are all within they any class do not need to specify
-the any class.
+           solaris::
+               "/var/cfengine/inputs"
+                   copy_from => update_policy( "/var/cfengine/masterfiles", "$(policyhost" ),
+                   classes   => policy_updated( "policy_updated" );
+
+The any class-expression
+~~~~~~~~~~~~~~~~~~~~~~~~
+The any class-expression is special in that it is not syntatically required 
+within a promise-type. Promisers defined directly under a promise-type are
+defauted to the special any class. This is conveniant but causes readability
+issues.
+
+To improve readability by aligning all class-expressions within a type, the
+special any class-expression should be explicitly defined when additional
+class-expressions are used. If no class-expression other than the special 
+any class is used it is not necissary to explicitly state it.
 
 Arrows
 ------
-Arrows should be lined up within their scope.
+Arrows should be alligned within a :term:`Promise Body` scope.
 
 Bundle Curly Brace Alignment
 ----------------------------
@@ -61,6 +96,10 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
+   :glob:
+
+   glossary
+   */*
 
 Indices and tables
 ==================
