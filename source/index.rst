@@ -82,6 +82,42 @@ special any class-expression should be explicitly defined when additional
 class-expressions are used. If no class-expression other than the special 
 any class is used it is not necissary to explicitly state it.
 
+    Good::
+ 
+        vars:
+            any::
+                "sudo" slist => { "%operations ALL = ALL" };
+
+            linux::
+                "sudo" slist => { "%operations ALL = ALL",
+                                  "%linuxadmins ALL = ALL" };
+ 
+        files:
+            "$(sudoers)" -> "Operations Team"
+                comment   => "Ensure common admin sudo permissions are granted",
+                edit_line => append_if_no_lines("$(sudo)"); 
+
+    Ugly::
+
+        vars:
+            "sudo" slist => { "%operations ALL = ALL" };
+
+            linux::
+                "sudo" slist => { "%operations ALL = ALL",
+                                  "%linuxadmins ALL = ALL" };
+
+         files:
+            any::
+                "$(sudoers)" -> "Operations Team"
+                    comment   => "Ensure common admin sudo permissions are granted",
+                    edit_line => append_if_no_lines("$(sudo)"); 
+
+            
+
+       
+
+
+
 Arrows
 ------
 Arrows should be alligned within a :term:`Promise Body` scope.
