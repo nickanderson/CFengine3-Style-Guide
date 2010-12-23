@@ -15,7 +15,7 @@ Indentation and Line Length
 ---------------------------
 Typically you indent 4 spaces, and never use tabs. Never let the length of a
 line exceed 80 characters. Unless there are cases where breaking the line would
-break the parsing of the code. (i.e. long shellcommands statements) 
+break the parsing of the code. (i.e. long commands statements) 
 
     ::
 
