@@ -3,4 +3,14 @@ A proposed style guide for CFengine3.
 Currently only encompases syntax style, but I would like to extend to 
 reccomended file orginization design patterns.
 
-Written in RST, easy to generate HTML ala sphnix.
+Using Sphinx Documentation builder. Source directory contains the
+documentation.
+
+Building the documentation::
+
+    pip install sphinx
+    make html
+
+.. note::
+    epub and latex output is also available, pdf or ps output can be generated from
+    latex output.
