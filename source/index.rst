@@ -1,3 +1,8 @@
+.. CFengine3 Style Guide documentation master file, created by
+   sphinx-quickstart on Wed Dec 22 18:28:01 2010.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
 ==============================
 CFengine3 Style Guide Proposal
 ==============================
@@ -42,4 +47,19 @@ Arrows should be lined up within their scope.
 Bundle Curly Brace Alignment
 ----------------------------
 Bundle definition should be followed by a space and a left curly brace, the closing curly brace should be aligned with the first character of the bundle definition. This allows for nested bundles.
+
+
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
 
