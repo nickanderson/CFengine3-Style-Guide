@@ -74,7 +74,7 @@ The any class-expression
 ~~~~~~~~~~~~~~~~~~~~~~~~
 The any class-expression is special in that it is not syntatically required 
 within a promise-type. Promisers defined directly under a promise-type are
-defauted to the special any class. This is conveniant but causes readability
+defauted to the special any class. This is conveniant but can cause readability
 issues.
 
 To improve readability by aligning all class-expressions within a type, the
