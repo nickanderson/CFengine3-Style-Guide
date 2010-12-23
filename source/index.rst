@@ -38,7 +38,14 @@ break the parsing of the code. (i.e. long shellcommands statements)
 
 Types and classes within bundles
 --------------------------------
-All types and classes shoud have a newline between them. Should use the any class explicitly if other classes within a type are used.
+All types and classes shoud have a newline between them. 
+
+The any class should be used explicitly if other classes within a type are 
+used. This improves readability by aligning all classes within a type and 
+removes ambiguity.
+
+Types whos resources are all within they any class do not need to specify
+the any class.
 
 Arrows
 ------
