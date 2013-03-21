@@ -83,7 +83,7 @@ within a promise-type. Promisers defined directly under a promise-type are
 defauted to the special any class. This is conveniant but can cause readability
 issues.
 
-    Good::
+Good::
  
     vars:
         "sudo" slist => { "%operations ALL = ALL" };
@@ -97,11 +97,12 @@ issues.
           comment   => "Ensure common admin sudo permissions are granted",
           edit_line => append_if_no_lines("$(sudo)"); 
 
-    Better::
+Better::
 
     vars:
       any::
         "sudo" slist => { "%operations ALL = ALL" };
+
       linux::
         "sudo" slist => { "%operations ALL = ALL",
                           "%linuxadmins ALL = ALL" };
@@ -113,7 +114,7 @@ issues.
           edit_line => append_if_no_lines("$(sudo)"); 
 
 
-    Ugly::
+Ugly::
 
     vars:
         "sudo" slist => { "%operations ALL = ALL" };
@@ -124,7 +125,7 @@ issues.
 
      files:
         any::
-            "$(sudoers)" -> "Operations Team"
+            "$(sudoers)" -> { "Operations Team" }
                 comment   => "Ensure common admin sudo permissions are granted",
                 edit_line => append_if_no_lines("$(sudo)"); 
 
