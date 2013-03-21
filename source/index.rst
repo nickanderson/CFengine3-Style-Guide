@@ -13,32 +13,38 @@ Whitespace
 ==========
 Indentation and Line Length
 ---------------------------
-Typically you indent 4 spaces, and never use tabs. Never let the length of a
+Typically you indent 2 spaces, and never use tabs. Avoid letting the length of a
 line exceed 80 characters. Unless there are cases where breaking the line would
-break the parsing of the code. (i.e. long commands statements) 
+break the parsing of the code. (e.g. long commands statements) 
+
+#. Bundle or body definition should be indented 0 times
+#. :term`promise-type` should be indented 1 time
+#. Promisers should be intented 2 times
+#. Promise attributes should be intented 3 times
 
     ::
 
-        bundle agent update {
-            vars:
-                "policyhost" string => "MyPolicyServerHostname";
+        bundle agent update
+        {
+          vars:
+              "policyhost" string => "MyPolicyServerHostname";
 
-            files:
-                any::
-                    "/var/cfengine/inputs/"
-                        copy_from    => update_policy( "/var/cfengine/masterfiles","$(policyhost)" ),
-                        classes      => policy_updated( "policy_updated" ),
-                        depth_search => recurse("inf");
+          files:
+            any::
+              "/var/cfengine/inputs/"
+                copy_from    => update_policy( "/var/cfengine/masterfiles","$(policyhost)" ),
+                classes      => policy_updated( "policy_updated" ),
+                depth_search => recurse("inf");
 
-                solaris::
-                    "/var/cfengine/inputs"
-                        copy_from => update_policy( "/var/cfengine/masterfiles", "$(policyhost" ),
-                        classes   => policy_updated( "policy_updated" );
+          solaris::
+              "/var/cfengine/inputs"
+                copy_from => update_policy( "/var/cfengine/masterfiles", "$(policyhost" ),
+                classes   => policy_updated( "policy_updated" );
         }
 
 Types and classes within bundles
 --------------------------------
-Each :term:`promise-type` should have newline before the following promise-type.
+Each :term:`promise-type` should have a newline before the following promise-type.
 
     For example the newline before the files promise-type::
 
@@ -58,17 +64,17 @@ following class-expression.
 
     ::
         
-        files:
+         files:
            any::
-               "/var/cfengine/inputs/"
-                   copy_from    => update_policy( "/var/cfengine/masterfiles","$(policyhost)" ),
-                   classes      => policy_updated( "policy_updated" ),
-                   depth_search => recurse("inf");
+             "/var/cfengine/inputs/"
+               copy_from    => update_policy( "/var/cfengine/masterfiles","$(policyhost)" ),
+               classes      => policy_updated( "policy_updated" ),
+               depth_search => recurse("inf");
 
-           solaris::
-               "/var/cfengine/inputs"
-                   copy_from => update_policy( "/var/cfengine/masterfiles", "$(policyhost" ),
-                   classes   => policy_updated( "policy_updated" );
+         solaris::
+             "/var/cfengine/inputs"
+               copy_from => update_policy( "/var/cfengine/masterfiles", "$(policyhost" ),
+               classes   => policy_updated( "policy_updated" );
 
 The any class-expression
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -77,44 +83,51 @@ within a promise-type. Promisers defined directly under a promise-type are
 defauted to the special any class. This is conveniant but can cause readability
 issues.
 
-To improve readability by aligning all class-expressions within a type, the
-special any class-expression should be explicitly defined when additional
-class-expressions are used. If no class-expression other than the special 
-any class is used it is not necissary to explicitly state it.
-
     Good::
  
-        vars:
-            any::
-                "sudo" slist => { "%operations ALL = ALL" };
+    vars:
+        "sudo" slist => { "%operations ALL = ALL" };
 
-            linux::
-                "sudo" slist => { "%operations ALL = ALL",
-                                  "%linuxadmins ALL = ALL" };
+      linux::
+        "sudo" slist => { "%operations ALL = ALL",
+                          "%linuxadmins ALL = ALL" };
  
-        files:
+    files:
+        "$(sudoers)" -> { "Operations Team" }
+          comment   => "Ensure common admin sudo permissions are granted",
+          edit_line => append_if_no_lines("$(sudo)"); 
+
+    Better::
+
+    vars:
+      any::
+        "sudo" slist => { "%operations ALL = ALL" };
+      linux::
+        "sudo" slist => { "%operations ALL = ALL",
+                          "%linuxadmins ALL = ALL" };
+ 
+    files:
+      any::
+        "$(sudoers)" -> { "Operations Team" }
+          comment   => "Ensure common admin sudo permissions are granted",
+          edit_line => append_if_no_lines("$(sudo)"); 
+
+
+    Ugly::
+
+    vars:
+        "sudo" slist => { "%operations ALL = ALL" };
+
+        linux::
+            "sudo" slist => { "%operations ALL = ALL",
+                              "%linuxadmins ALL = ALL" };
+
+     files:
+        any::
             "$(sudoers)" -> "Operations Team"
                 comment   => "Ensure common admin sudo permissions are granted",
                 edit_line => append_if_no_lines("$(sudo)"); 
 
-    Ugly::
-
-        vars:
-            "sudo" slist => { "%operations ALL = ALL" };
-
-            linux::
-                "sudo" slist => { "%operations ALL = ALL",
-                                  "%linuxadmins ALL = ALL" };
-
-         files:
-            any::
-                "$(sudoers)" -> "Operations Team"
-                    comment   => "Ensure common admin sudo permissions are granted",
-                    edit_line => append_if_no_lines("$(sudo)"); 
-
-            
-
-       
 
 
 
@@ -124,14 +137,25 @@ Arrows should be alligned within a :term:`Promise Body` scope.
 
 Bundle Curly Brace Alignment
 ----------------------------
-Bundle definition should be followed by a space and a left curly brace, the closing curly brace should be aligned with the first character of the bundle definition. This allows for nested bundles.
+Bundle definition should be followed by newline, bundle documentation and the
+opening curly brace should be aligned at column 0 by it self.
 
     ::
 
-        bundle agent example {
+        bundle agent example(param1)
+        # Documentation is helpful
+        # param1 - list - a list of items
+        {
 
         }
     
+Inline Comments
+---------------
+Bundles and bodies should include inline documentation. Documentation of
+general function and parameters should be done between the bundle and body
+definition and the opening curly brace. This allows documetation to be viewed
+even while code folding is on, and decreases the likelihood that documentation
+is seperated from the bundle or body if copied to a private library.
 
 
 Contents:
