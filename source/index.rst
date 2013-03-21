@@ -157,6 +157,13 @@ definition and the opening curly brace. This allows documetation to be viewed
 even while code folding is on, and decreases the likelihood that documentation
 is seperated from the bundle or body if copied to a private library.
 
+Promise comments and handle
+---------------------------
+Comments and handles should be added to each promise. It may be acceptable to
+omit this for classes and vars type promises if they are self apparent.
+Handles must be unique within a policy. prefixing handles with namespace and
+bundlename might be a good idea.
+
 
 Contents:
 
